@@ -82,7 +82,6 @@ extension TabBarController: TransitionableTab {
             animation.toValue = 0
             return animation
         }
-        
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
