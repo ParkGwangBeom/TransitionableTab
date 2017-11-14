@@ -111,7 +111,7 @@ If you prefer not to use either of the aforementioned dependency managers, you c
 
 ## Usage
 
-The usage of **TransitioningTabBar** is very simple
+The usage of **TransitionableTab** is very simple
 
 ```swift
 import TransitionableTab
@@ -124,7 +124,7 @@ class TabBarController: UITabBarController {
     }
 }
 
-extension TabBarController: TransitioningTabBar {
+extension TabBarController: TransitionableTab {
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         return animateTransition(tabBarController, shouldSelect: viewController)
@@ -135,7 +135,7 @@ extension TabBarController: TransitioningTabBar {
 ### Custom
 
 ```swift
-public protocol TransitioningTabBar: UITabBarControllerDelegate {
+public protocol TransitionableTab: UITabBarControllerDelegate {
 
     func transitionTimingFunction() -> CAMediaTimingFunction
 
