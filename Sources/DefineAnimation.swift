@@ -2,7 +2,7 @@
 //  DefineAnimation.swift
 //  TransitionableTab-iOS
 //
-//  Created by gwangboem on 2017. 11. 14..
+//  Created by gwangbeom on 2017. 11. 14..
 //  Copyright © 2017년 InteractiveStudio. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Example
 //
-//  Created by NAVER on 2017. 11. 15..
+//  Created by gwangbeom on 2017. 11. 15..
 //  Copyright © 2017년 InteractiveStudio. All rights reserved.
 //
 
