@@ -29,7 +29,7 @@ class TabBarController: UITabBarController {
         viewControllers?.forEach {
             let button = UIButton(type: .system)
             button.frame = CGRect(x: 0, y: 30, width: 200, height: 100)
-            button.setTitle("Chaange Animation", for: .normal)
+            button.setTitle("Change Animation", for: .normal)
             button.addTarget(self, action: #selector(touch), for: .touchUpInside)
             $0.view.addSubview(button)
         }
