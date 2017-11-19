@@ -46,6 +46,7 @@
 - [Installation](#installation)
 - [Preview](#preview)
 - [Usage](#usage)
+- [Communication](#communication)
 - [Credits](#credits)
 - [License](#license)
 
@@ -153,6 +154,12 @@ public protocol TransitionableTab: UITabBarControllerDelegate {
 ```
 
 If you want to know more detailed usage, please refer to Example.
+
+## Communication
+
+- If you **found a bug**, open an issue.
+- If you **have a feature request**, open an issue.
+- If you **want to contribute**, submit a pull request.
 
 ## Credits
 
