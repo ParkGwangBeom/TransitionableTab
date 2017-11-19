@@ -113,7 +113,7 @@ If you prefer not to use either of the aforementioned dependency managers, you c
 
 ## Preview
 
-|<img src="Resource/all.gif" width="300"> |
+<img src="Resource/all.gif" width="300">
 
 ## Usage
 
