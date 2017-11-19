@@ -44,6 +44,7 @@
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Preview](#preview)
 - [Usage](#usage)
 - [Credits](#credits)
 - [License](#license)
