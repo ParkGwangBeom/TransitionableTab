@@ -74,7 +74,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'TransitionableTab', '~> 0.1.0'
+    pod 'TransitionableTab', '~> 0.1.1'
 end
 ```
 
@@ -98,7 +98,7 @@ $ brew install carthage
 To integrate TransitionableTab into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Interactive-Studio/TransitionableTab" ~> 0.1.0
+github "Interactive-Studio/TransitionableTab" ~> 0.1.1
 ```
 
 Run `carthage update` to build the framework and drag the built `TransitionableTab.framework` into your Xcode project.
@@ -108,6 +108,10 @@ Run `carthage update` to build the framework and drag the built `TransitionableT
 If you prefer not to use either of the aforementioned dependency managers, you can integrate TransitionableTab into your project manually.
 
 ---
+
+## Preview
+
+|<img src="Resource/all.gif" width="300"> |
 
 ## Usage
 

@@ -44,6 +44,7 @@ public extension TransitionableTab {
         }
         
         let context = LayerContext(fromViewController: fromViewCotroller, toViewController: viewController)
+        tabBarController.view.layer.insertSublayer(context.toBackgroundLayer!, at: 0)
         tabBarController.view.layer.insertSublayer(context.fakeLayer!, at: 0)
         tabBarController.view.layer.insertSublayer(context.backgroundLayer!, at: 0)
         addFakeNavigationBarLayerIfNeeded(in: tabBarController, context: context)
@@ -62,6 +63,7 @@ private struct AnimationKeys {
     static var toViewAnimationKey = "ToViewAnimationKey"
     static var fromViewAnimationKey = "FromViewAnimationKey"
     static var navigationBarAnimationKey = "navigationBarAnimationKey"
+    static var backgroundAnimatonKey = "BackgroundAnimationKey"
 }
 
 private extension TransitionableTab {
@@ -74,6 +76,7 @@ private extension TransitionableTab {
     func animate(context: LayerContext, direction: Direction) {
         let fromAnimation = fromTransitionAnimation(layer: context.fakeLayer!, direction: direction)
         let toAnimation = toTransitionAnimation(layer: context.toLayer!, direction: direction)
+        let backgroundAnimation = AnimationFactory.makeAnimation(type: .opacity, from: 0, to: 1)
         
         CATransaction.begin()
         CATransaction.setAnimationDuration(transitionDuration())
@@ -88,9 +91,10 @@ private extension TransitionableTab {
             fadeAnimation.fillMode = kCAFillModeForwards
             fakeNavigationBar.add(fadeAnimation, forKey: AnimationKeys.navigationBarAnimationKey)
         }
-        
+
+        context.toBackgroundLayer?.add(backgroundAnimation, forKey: AnimationKeys.backgroundAnimatonKey)
         context.fakeLayer?.add(fromAnimation, forKey: AnimationKeys.fromViewAnimationKey)
-        context.toLayer!.add(toAnimation, forKey: AnimationKeys.toViewAnimationKey)
+        context.toLayer?.add(toAnimation, forKey: AnimationKeys.toViewAnimationKey)
         CATransaction.commit()
     }
 }

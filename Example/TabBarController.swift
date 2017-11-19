@@ -25,13 +25,26 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        viewControllers?.forEach {
-            let button = UIButton(type: .system)
-            button.frame = CGRect(x: 0, y: 30, width: 200, height: 100)
-            button.setTitle("Chaange Animation", for: .normal)
-            button.addTarget(self, action: #selector(touch), for: .touchUpInside)
-            $0.view.addSubview(button)
+        viewControllers?.flatMap{ ($0 as? UINavigationController)?.visibleViewController }.forEach {
+            let searchBar = UISearchBar(frame: .zero)
+            if #available(iOS 11.0, *) {
+                searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+            }
+            searchBar.searchBarStyle = .prominent
+            searchBar.placeholder = "Search"
+            $0.navigationItem.titleView = searchBar
+            
+            $0.navigationController?.navigationBar.isTranslucent = false
+            $0.navigationController?.navigationBar.tintColor = UIColor.white
+            $0.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2666666667, green: 0.4117647059, blue: 0.6901960784, alpha: 1)
+            
+            let rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(touch))
+            $0.navigationItem.rightBarButtonItem = rightBarButtonItem
         }
     }
     
@@ -44,6 +57,8 @@ class TabBarController: UITabBarController {
             }
             actionSheet.addAction(action)
         }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheet.addAction(cancel)
         present(actionSheet, animated: true, completion: nil)
     }
 }
@@ -51,7 +66,7 @@ class TabBarController: UITabBarController {
 extension TabBarController: TransitionableTab {
     
     func transitionDuration() -> CFTimeInterval {
-        return 0.5
+        return 0.4
     }
     
     func transitionTimingFunction() -> CAMediaTimingFunction {

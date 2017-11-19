@@ -8,26 +8,34 @@
 
 import UIKit
 
+// MARK: toBackgroundLayer 적용하기
+
 class LayerContext {
-    
-    var backgroundLayer: CALayer?
+
     var fakeLayer: CALayer?
     var fakeNavigationBarLayer: CALayer?
+    
+    var backgroundLayer: CALayer?
+    var toBackgroundLayer: CALayer?
     weak var toLayer: CALayer?
     
     init(fromViewController: UIViewController, toViewController: UIViewController) {
         toLayer = toViewController.pureViewController.view.layer
-        makeBackgroundLayer(toViewController.pureViewController)
+        toBackgroundLayer = makeLayer(toViewController.pureViewController)
+        backgroundLayer = makeLayer(toViewController.pureViewController)
         makeFakeLayer(fromViewController.pureViewController)
         makeFakeNavigationBarLayerIfExists(fromViewController)
     }
     
     func reset() {
-        fakeLayer?.removeFromSuperlayer()
         backgroundLayer?.removeFromSuperlayer()
+        toBackgroundLayer?.removeFromSuperlayer()
+        fakeLayer?.removeFromSuperlayer()
         fakeNavigationBarLayer?.removeFromSuperlayer()
-        fakeLayer = nil
+        
         backgroundLayer = nil
+        toBackgroundLayer = nil
+        fakeLayer = nil
         fakeNavigationBarLayer = nil
     }
 }
@@ -35,19 +43,31 @@ class LayerContext {
 private extension LayerContext {
     
     func makeFakeLayer(_ viewController: UIViewController) {
-        fakeLayer = viewController.view.snapshotView(afterScreenUpdates: false)?.layer
-        fakeLayer?.frame = viewController.view.bounds
-    }
-    
-    func makeBackgroundLayer(_ viewController: UIViewController) {
-        backgroundLayer = CALayer()
-        backgroundLayer?.frame = viewController.view.bounds
-        backgroundLayer?.backgroundColor = viewController.view.backgroundColor?.cgColor
+        let snapShot = viewController.view.snapshotView(afterScreenUpdates: false)?.layer
+        snapShot?.frame = CGRect(x: viewController.view.frame.width,
+                                 y: viewController.view.frame.origin.y,
+                                 width: viewController.view.frame.width,
+                                 height: viewController.view.frame.height)
+        
+        fakeLayer = CALayer()
+        fakeLayer?.backgroundColor = viewController.view.backgroundColor?.cgColor
+        fakeLayer?.frame = CGRect(x: -viewController.view.bounds.width,
+                                  y: viewController.view.bounds.origin.y,
+                                  width: (3 * viewController.view.bounds.width),
+                                  height: viewController.view.bounds.height)
+        fakeLayer?.addSublayer(snapShot!)
     }
     
     func makeFakeNavigationBarLayerIfExists(_ viewController: UIViewController) {
         fakeNavigationBarLayer = (viewController as? UINavigationController)?.navigationBar.snapshotView(afterScreenUpdates: false)?.layer
         fakeNavigationBarLayer?.frame =  (viewController as? UINavigationController)?.navigationBar.frame ?? .zero
+    }
+    
+    func makeLayer(_ viewController: UIViewController) -> CALayer {
+        let layer = CALayer()
+        layer.frame = UIScreen.main.bounds
+        layer.backgroundColor = viewController.view.backgroundColor?.cgColor ?? UIColor.white.cgColor
+        return layer
     }
 }
 
