@@ -10,37 +10,50 @@ import UIKit
 
 class LayerContext {
     
-    var snapShotLayer: CALayer?
     var backgroundLayer: CALayer?
-    var toLayer: CALayer
+    var fakeLayer: CALayer?
+    var fakeNavigationBarLayer: CALayer?
+    weak var toLayer: CALayer?
     
     init(fromViewController: UIViewController, toViewController: UIViewController) {
-        toLayer = toViewController.view.layer
-        makeSnapShotLayer(fromViewController)
-        makeBackgroundLayer(toViewController)
+        toLayer = toViewController.pureViewController.view.layer
+        makeBackgroundLayer(toViewController.pureViewController)
+        makeFakeLayer(fromViewController.pureViewController)
+        makeFakeNavigationBarLayerIfExists(fromViewController)
     }
     
-    func makeSnapShotLayer(_ viewController: UIViewController) {
-        snapShotLayer = viewController.view.snapshotView(afterScreenUpdates: false)?.layer
-        snapShotLayer?.frame = viewController.view.bounds
+    func reset() {
+        fakeLayer?.removeFromSuperlayer()
+        backgroundLayer?.removeFromSuperlayer()
+        fakeNavigationBarLayer?.removeFromSuperlayer()
+        fakeLayer = nil
+        backgroundLayer = nil
+        fakeNavigationBarLayer = nil
+    }
+}
+
+private extension LayerContext {
+    
+    func makeFakeLayer(_ viewController: UIViewController) {
+        fakeLayer = viewController.view.snapshotView(afterScreenUpdates: false)?.layer
+        fakeLayer?.frame = viewController.view.bounds
     }
     
     func makeBackgroundLayer(_ viewController: UIViewController) {
         backgroundLayer = CALayer()
         backgroundLayer?.frame = viewController.view.bounds
-        
-        // TODO: refactoring
-        if let navigation = viewController as? UINavigationController {
-            backgroundLayer?.backgroundColor = navigation.visibleViewController?.view.backgroundColor?.cgColor
-        } else {
-            backgroundLayer?.backgroundColor = viewController.view.backgroundColor?.cgColor
-        }
+        backgroundLayer?.backgroundColor = viewController.view.backgroundColor?.cgColor
     }
     
-    func reset() {
-        snapShotLayer?.removeFromSuperlayer()
-        backgroundLayer?.removeFromSuperlayer()
-        snapShotLayer = nil
-        backgroundLayer = nil
+    func makeFakeNavigationBarLayerIfExists(_ viewController: UIViewController) {
+        fakeNavigationBarLayer = (viewController as? UINavigationController)?.navigationBar.snapshotView(afterScreenUpdates: false)?.layer
+        fakeNavigationBarLayer?.frame =  (viewController as? UINavigationController)?.navigationBar.frame ?? .zero
+    }
+}
+
+private extension UIViewController {
+    
+    var pureViewController: UIViewController {
+        return (self as? UINavigationController)?.visibleViewController ?? self
     }
 }

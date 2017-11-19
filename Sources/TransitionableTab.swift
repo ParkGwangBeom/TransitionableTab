@@ -44,12 +44,13 @@ public extension TransitionableTab {
         }
         
         let context = LayerContext(fromViewController: fromViewCotroller, toViewController: viewController)
-        tabBarController.view.layer.insertSublayer(context.snapShotLayer!, at: 0)
+        tabBarController.view.layer.insertSublayer(context.fakeLayer!, at: 0)
         tabBarController.view.layer.insertSublayer(context.backgroundLayer!, at: 0)
-
+        addFakeNavigationBarLayerIfNeeded(in: tabBarController, context: context)
+        
         let selectedIndex = tabBarController.selectedIndex
         let shouldSelectIndex = tabBarController.viewControllers?.index(of: viewController) ?? 0
-        let direction = Direction.check(selectedIndex: selectedIndex, shouldSelectIndex: shouldSelectIndex)
+        let direction = Direction(selectedIndex: selectedIndex, shouldSelectIndex: shouldSelectIndex)
 
         (tabBarController as? TransitionableTab)?.animate(context: context, direction: direction)
         
@@ -60,13 +61,19 @@ public extension TransitionableTab {
 private struct AnimationKeys {
     static var toViewAnimationKey = "ToViewAnimationKey"
     static var fromViewAnimationKey = "FromViewAnimationKey"
+    static var navigationBarAnimationKey = "navigationBarAnimationKey"
 }
 
 private extension TransitionableTab {
     
+    func addFakeNavigationBarLayerIfNeeded(in tabBarController: UITabBarController, context: LayerContext) {
+        guard let fakeNavigationBar = context.fakeNavigationBarLayer else { return }
+        tabBarController.view.layer.addSublayer(fakeNavigationBar)
+    }
+    
     func animate(context: LayerContext, direction: Direction) {
-        let fromAnimation = fromTransitionAnimation(layer: context.snapShotLayer!, direction: direction)
-        let toAnimation = toTransitionAnimation(layer: context.toLayer, direction: direction)
+        let fromAnimation = fromTransitionAnimation(layer: context.fakeLayer!, direction: direction)
+        let toAnimation = toTransitionAnimation(layer: context.toLayer!, direction: direction)
         
         CATransaction.begin()
         CATransaction.setAnimationDuration(transitionDuration())
@@ -74,8 +81,16 @@ private extension TransitionableTab {
         CATransaction.setCompletionBlock {
             context.reset()
         }
-        context.snapShotLayer?.add(fromAnimation, forKey: AnimationKeys.fromViewAnimationKey)
-        context.toLayer.add(toAnimation, forKey: AnimationKeys.toViewAnimationKey)
+        
+        if let fakeNavigationBar = context.fakeNavigationBarLayer {
+            let fadeAnimation = AnimationFactory.makeAnimation(type: .opacity, from: 1, to: 0)
+            fadeAnimation.isRemovedOnCompletion = false
+            fadeAnimation.fillMode = kCAFillModeForwards
+            fakeNavigationBar.add(fadeAnimation, forKey: AnimationKeys.navigationBarAnimationKey)
+        }
+        
+        context.fakeLayer?.add(fromAnimation, forKey: AnimationKeys.fromViewAnimationKey)
+        context.toLayer!.add(toAnimation, forKey: AnimationKeys.toViewAnimationKey)
         CATransaction.commit()
     }
 }

@@ -12,8 +12,8 @@ public enum Direction {
     case left
     case right
     
-    static func check(selectedIndex: Int, shouldSelectIndex: Int) -> Direction {
-        return selectedIndex > shouldSelectIndex ? .left : .right
+    init(selectedIndex: Int, shouldSelectIndex: Int) {
+        self = selectedIndex > shouldSelectIndex ? .left : .right
     }
 }
 
