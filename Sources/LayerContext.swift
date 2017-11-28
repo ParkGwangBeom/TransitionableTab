@@ -59,8 +59,20 @@ private extension LayerContext {
     }
     
     func makeFakeNavigationBarLayerIfExists(_ viewController: UIViewController) {
-        fakeNavigationBarLayer = (viewController as? UINavigationController)?.navigationBar.snapshotView(afterScreenUpdates: false)?.layer
-        fakeNavigationBarLayer?.frame =  (viewController as? UINavigationController)?.navigationBar.frame ?? .zero
+        guard let navigationController = viewController as? UINavigationController,
+            let navigationBarLayer = navigationController.navigationBar.snapshotView(afterScreenUpdates: false)?.layer else {
+                return
+        }
+        
+        // TODO: Refactoring
+        navigationBarLayer.frame = navigationController.navigationBar.frame
+        
+        let fakeNavigationBarLayer = CALayer()
+        fakeNavigationBarLayer.backgroundColor = navigationController.navigationBar.barTintColor?.cgColor
+        fakeNavigationBarLayer.frame = CGRect(x: 0, y: 0, width: navigationBarLayer.frame.width, height: UIApplication.shared.statusBarFrame.height + navigationBarLayer.frame.height)
+        fakeNavigationBarLayer.addSublayer(navigationBarLayer)
+        
+        self.fakeNavigationBarLayer = fakeNavigationBarLayer
     }
     
     func makeLayer(_ viewController: UIViewController) -> CALayer {
