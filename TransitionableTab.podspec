@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TransitionableTab"
-  s.version      = "0.1.1"
+  s.version      = "0.1.2"
   s.summary      = "between tab animation"
   s.description  = "TransitionableTab makes it easy to animate when switching between tab"
   s.homepage     = "https://github.com/Interactive-Studio/TransitionableTab"
