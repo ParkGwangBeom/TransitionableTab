@@ -40,7 +40,7 @@ public extension TransitionableTab {
     func animateTransition(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let fromViewCotroller = tabBarController.selectedViewController,
                 fromViewCotroller != viewController else {
-                    return false
+            return true
         }
         
         let context = LayerContext(fromViewController: fromViewCotroller, toViewController: viewController)
