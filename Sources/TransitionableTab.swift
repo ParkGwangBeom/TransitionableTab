@@ -14,9 +14,9 @@ public protocol TransitionableTab: UITabBarControllerDelegate {
     
     func transitionDuration() -> CFTimeInterval
     
-    func fromTransitionAnimation(layer: CALayer, direction: Direction) -> CAAnimation
+    func fromTransitionAnimation(layer: CALayer?, direction: Direction) -> CAAnimation
     
-    func toTransitionAnimation(layer: CALayer, direction: Direction) -> CAAnimation
+    func toTransitionAnimation(layer: CALayer?, direction: Direction) -> CAAnimation
 }
 
 public extension TransitionableTab {
@@ -29,11 +29,11 @@ public extension TransitionableTab {
         return .easeOut
     }
     
-    func fromTransitionAnimation(layer: CALayer, direction: Direction) -> CAAnimation {
+    func fromTransitionAnimation(layer: CALayer?, direction: Direction) -> CAAnimation {
         return DefineAnimation.move(.from, direction: direction)
     }
     
-    func toTransitionAnimation(layer: CALayer, direction: Direction) -> CAAnimation {
+    func toTransitionAnimation(layer: CALayer?, direction: Direction) -> CAAnimation {
         return DefineAnimation.move(.to, direction: direction)
     }
     
@@ -44,9 +44,17 @@ public extension TransitionableTab {
         }
         
         let context = LayerContext(fromViewController: fromViewCotroller, toViewController: viewController)
-        tabBarController.view.layer.insertSublayer(context.toBackgroundLayer!, at: 0)
-        tabBarController.view.layer.insertSublayer(context.fakeLayer!, at: 0)
-        tabBarController.view.layer.insertSublayer(context.backgroundLayer!, at: 0)
+        
+        if let toBackgroundLayer = context.toBackgroundLayer {
+            tabBarController.view.layer.insertSublayer(toBackgroundLayer, at: 0)
+        }
+        if let fakeLayer = context.fakeLayer {
+            tabBarController.view.layer.insertSublayer(fakeLayer, at: 0)
+        }
+        if let backgroundLayer = context.backgroundLayer {
+            tabBarController.view.layer.insertSublayer(backgroundLayer, at: 0)
+        }
+        
         addFakeNavigationBarLayerIfNeeded(in: tabBarController, context: context)
         
         let selectedIndex = tabBarController.selectedIndex
@@ -74,8 +82,9 @@ private extension TransitionableTab {
     }
     
     func animate(context: LayerContext, direction: Direction) {
-        let fromAnimation = fromTransitionAnimation(layer: context.fakeLayer!, direction: direction)
-        let toAnimation = toTransitionAnimation(layer: context.toLayer!, direction: direction)
+
+        let fromAnimation = fromTransitionAnimation(layer: context.fakeLayer, direction: direction)
+        let toAnimation = toTransitionAnimation(layer: context.toLayer, direction: direction)
         let backgroundAnimation = AnimationFactory.makeAnimation(type: .opacity, from: 0, to: 1)
         
         CATransaction.begin()

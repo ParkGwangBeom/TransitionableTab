@@ -73,7 +73,7 @@ extension TabBarController: TransitionableTab {
         return .easeInOut
     }
     
-    func fromTransitionAnimation(layer: CALayer, direction: Direction) -> CAAnimation {
+    func fromTransitionAnimation(layer: CALayer?, direction: Direction) -> CAAnimation {
         switch type {
         case .move: return DefineAnimation.move(.from, direction: direction)
         case .scale: return DefineAnimation.scale(.from)
@@ -81,19 +81,19 @@ extension TabBarController: TransitionableTab {
         case .custom:
             let animation = CABasicAnimation(keyPath: "transform.translation.y")
             animation.fromValue = 0
-            animation.toValue = -layer.frame.height
+            animation.toValue = -(layer?.frame.height ?? 0)
             return animation
         }
     }
     
-    func toTransitionAnimation(layer: CALayer, direction: Direction) -> CAAnimation {
+    func toTransitionAnimation(layer: CALayer?, direction: Direction) -> CAAnimation {
         switch type {
         case .move: return DefineAnimation.move(.to, direction: direction)
         case .scale: return DefineAnimation.scale(.to)
         case .fade: return DefineAnimation.fade(.to)
         case .custom:
             let animation = CABasicAnimation(keyPath: "transform.translation.y")
-            animation.fromValue = layer.frame.height
+            animation.fromValue = (layer?.frame.height ?? 0)
             animation.toValue = 0
             return animation
         }

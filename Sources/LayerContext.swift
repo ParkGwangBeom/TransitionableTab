@@ -43,8 +43,10 @@ class LayerContext {
 private extension LayerContext {
     
     func makeFakeLayer(_ viewController: UIViewController) {
-        let snapShot = viewController.view.snapshotView(afterScreenUpdates: false)?.layer
-        snapShot?.frame = CGRect(x: viewController.view.frame.width,
+        guard let snapShot = viewController.view.snapshotView(afterScreenUpdates: false)?.layer else {
+            return
+        }
+        snapShot.frame = CGRect(x: viewController.view.frame.width,
                                  y: viewController.view.frame.origin.y,
                                  width: viewController.view.frame.width,
                                  height: viewController.view.frame.height)
@@ -55,7 +57,7 @@ private extension LayerContext {
                                   y: viewController.view.bounds.origin.y,
                                   width: (3 * viewController.view.bounds.width),
                                   height: viewController.view.bounds.height)
-        fakeLayer?.addSublayer(snapShot!)
+        fakeLayer?.addSublayer(snapShot)
     }
     
     func makeFakeNavigationBarLayerIfExists(_ viewController: UIViewController) {
