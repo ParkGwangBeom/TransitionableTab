@@ -30,7 +30,7 @@ class TabBarController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        viewControllers?.flatMap{ ($0 as? UINavigationController)?.visibleViewController }.forEach {
+        viewControllers?.compactMap{ ($0 as? UINavigationController)?.visibleViewController }.forEach {
             let searchBar = UISearchBar(frame: .zero)
             if #available(iOS 11.0, *) {
                 searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
