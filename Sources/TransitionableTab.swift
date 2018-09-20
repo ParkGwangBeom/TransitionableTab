@@ -97,7 +97,7 @@ private extension TransitionableTab {
         if let fakeNavigationBar = context.fakeNavigationBarLayer {
             let fadeAnimation = AnimationFactory.makeAnimation(type: .opacity, from: 1, to: 0)
             fadeAnimation.isRemovedOnCompletion = false
-            fadeAnimation.fillMode = kCAFillModeForwards
+            fadeAnimation.fillMode = CAMediaTimingFillMode.forwards
             fakeNavigationBar.add(fadeAnimation, forKey: AnimationKeys.navigationBarAnimationKey)
         }
 
