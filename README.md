@@ -54,7 +54,7 @@
 
 - iOS 8.0+
 - Xcode 9.0+
-- Swift 4.0+
+- Swift 4.2+ (use version 0.1.3 for Swift 4.0)
 
 ## Installation
 
@@ -76,7 +76,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'TransitionableTab', '~> 0.1.3'
+    pod 'TransitionableTab', '~> 0.2.0'
 end
 ```
 
@@ -100,7 +100,7 @@ $ brew install carthage
 To integrate TransitionableTab into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Interactive-Studio/TransitionableTab" ~> 0.1.3
+github "Interactive-Studio/TransitionableTab" ~> 0.2.0
 ```
 
 Run `carthage update` to build the framework and drag the built `TransitionableTab.framework` into your Xcode project.
