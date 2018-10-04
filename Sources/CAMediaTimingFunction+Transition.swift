@@ -10,11 +10,11 @@ import UIKit
 
 public extension CAMediaTimingFunction {
     
-    static let linear = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+    static let linear = CAMediaTimingFunction(name: .linear)
     
-    static let easeIn = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
+    static let easeIn = CAMediaTimingFunction(name: .easeIn)
     
-    static let easeOut = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+    static let easeOut = CAMediaTimingFunction(name: .easeOut)
     
-    static let easeInOut = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+    static let easeInOut = CAMediaTimingFunction(name: .easeInEaseOut)
 }
