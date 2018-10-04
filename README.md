@@ -1,11 +1,11 @@
 # TransitionableTab
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Version](https://img.shields.io/cocoapods/v/Hero.svg?style=flat)](http://cocoapods.org/pods/Hero)
 ![Xcode 9.0+](https://img.shields.io/badge/Xcode-9.0%2B-blue.svg)
 ![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
-![Swift 4.0+](https://img.shields.io/badge/Swift-4.0%2B-orange.svg)
-[![License](https://img.shields.io/cocoapods/l/Hero.svg?style=flat)](https://github.com/lkzhao/Hero/blob/master/LICENSE?raw=true)
+[![Version](https://img.shields.io/cocoapods/v/TransitionableTab.svg?style=flat)](http://cocoapods.org/pods/Hero)
+![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg)
+[![License](https://img.shields.io/cocoapods/l/TransitionableTab.svg?style=flat)](https://github.com/lkzhao/Hero/blob/master/LICENSE?raw=true)
 
 **TransitionableTab** makes it easy to animate when switching between tab .
 
@@ -54,7 +54,7 @@
 
 - iOS 8.0+
 - Xcode 9.0+
-- Swift 4.2+ (use version 0.1.3 for Swift 4.0)
+- Swift 4.2 (use version 0.1.3 for Swift 4.0)
 
 ## Installation
 
@@ -66,7 +66,7 @@
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1+ is required to build TransitionableTab 4.0+.
+> CocoaPods 1.1+ is required to build TransitionableTab 4.2+.
 
 To integrate TransitionableTab into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
